@@ -1,0 +1,63 @@
+[project]
+name = "ypsilon-torch"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "윤병익",email = "yeun0908@gmail.com"}
+]
+requires-python = ">=3.12,<3.15"
+license = "LGPL-2.1-or-later"
+
+[tool.poetry]
+requires-poetry = ">=2.0"
+packages = [{include = "ypsilon_torch", from = "src"}]
+
+[[tool.poetry.source]]
+name = "pytorch-cu130"
+url = "https://download.pytorch.org/whl/cu130"
+priority = "explicit"
+
+[[tool.poetry.source]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+priority = "explicit"
+
+[[tool.poetry.source]]
+name = "pytorch-cu126"
+url = "https://download.pytorch.org/whl/cu126"
+priority = "explicit"
+
+[[tool.poetry.source]]
+name = "pytorch-cpu"
+priority = "explicit"
+url = "https://download.pytorch.org/whl/cpu"
+
+[tool.poetry.dependencies]
+torch = [
+    {version = "2.10.0+cpu", source = "pytorch-cpu", markers = "extra=='cpu' and extra!='cu126' and extra!='cu128' and extra!='cu130'"},
+    {version = "2.10.0+cu126", source = "pytorch-cu126", markers = "extra!='cpu' and extra=='cu126' and extra!='cu128' and extra!='cu130'"},
+    {version = "2.10.0+cu128", source = "pytorch-cu128", markers = "extra!='cpu' and extra!='cu126' and extra=='cu128' and extra!='cu130'"},
+    {version = "2.10.0+cu130", source = "pytorch-cu130", markers = "extra!='cpu' and extra!='cu126' and extra!='cu128' and extra=='cu130'"}
+]
+torchutils = [
+    {git = "https://github.com/newsniper-org/torchutils", rev = "v0.1.1", extras = ["cpu"], markers = "extra=='cpu' and extra!='cu126' and extra!='cu128' and extra!='cu130'"},
+    {git = "https://github.com/newsniper-org/torchutils", rev = "v0.1.1", extras = ["cu126"], markers = "extra!='cpu' and extra=='cu126' and extra!='cu128' and extra!='cu130'"},
+    {git = "https://github.com/newsniper-org/torchutils", rev = "v0.1.1", extras = ["cu128"], markers = "extra!='cpu' and extra!='cu126' and extra=='cu128' and extra!='cu130'"},
+    {git = "https://github.com/newsniper-org/torchutils", rev = "v0.1.1", extras = ["cu130"], markers = "extra!='cpu' and extra!='cu126' and extra!='cu128' and extra=='cu130'"}
+]
+numpy = "^2.4.2"
+
+[tool.poetry.extras]
+cpu = ["torch", "torchutils"]
+cu126 = ["torch", "torchutils"]
+cu128 = ["torch", "torchutils"]
+cu130 = ["torch", "torchutils"]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[dependency-groups]
+dev = [
+    "pytest (>=9.0.2,<10.0.0)"
+]
