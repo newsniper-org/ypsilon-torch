@@ -4,7 +4,7 @@ import torch.nn as nn
 from ypsilon_torch.blocks.activations import RealActivationFunctionBase
 from ypsilon_torch.functional import thash
 
-class ThASh(RealActivationBase):
+class ThASh(RealActivationFunctionBase):
     r"""
     ThASh(TanhArSinh) activation.
 

@@ -4,7 +4,7 @@ import torch.nn as nn
 from ypsilon_torch.blocks.activations import RealActivationFunctionBase
 from ypsilon_torch.functional import hglu
 
-class HGLU(RealActivationBase):
+class HGLU(RealActivationFunctionBase):
     r"""
     HGLU_k(Hyperbolic Gain Linear Unit with positive hyperparameter k) activation
 
