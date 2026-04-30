@@ -10,7 +10,7 @@ from functools import reduce
 
 from collections.abc import Sequence
 from ypsilon_torch import NonLearnableProcessorBase, NonLearnableSynchronizedProcessorBase, FPDTypeIdx, get_float_dtype, get_complex_dtype
-from ypsilon_torch.transforms import InvertibleTransformsBase
+from ypsilon_torch.blocks.transforms import InvertibleTransformsBase
 
 class SynchronizedGenericSSTCache(TypedDict):
     # 역변환을 위한 상태 캐시: { cache_key: (reassigned_bins, original_z) }

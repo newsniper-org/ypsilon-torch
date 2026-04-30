@@ -8,7 +8,7 @@ except ImportError:
     from typing_extensions import override
 
 from ypsilon_torch import NonLearnableProcessorBase, FPDTypeIdx, get_complex_dtype, get_float_dtype
-from ypsilon_torch.transforms import InvertibleTransformsBase
+from ypsilon_torch.blocks.transforms import InvertibleTransformsBase
 
 
 class FastSurfaceletTransform3D(InvertibleTransformsBase['InverseFastSurfaceletTransform3D']):

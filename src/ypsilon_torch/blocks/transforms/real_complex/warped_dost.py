@@ -43,7 +43,7 @@ except ImportError:  # pragma: no cover
     from typing_extensions import override  # type: ignore
 
 from ypsilon_torch import COMPLEX_DTYPES_DICT, FLOAT_DTYPES_DICT, FPDTypeIdx
-from ypsilon_torch.transforms import InvertibleTransformsBase
+from ypsilon_torch.blocks.transforms import InvertibleTransformsBase
 
 
 # ---------------------------------------------------------------------------

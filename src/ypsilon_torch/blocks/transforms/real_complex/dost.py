@@ -14,7 +14,7 @@ except ImportError:
     from typing_extensions import override
 
 from ypsilon_torch import NonLearnableProcessorBase, FPDTypeIdx, COMPLEX_DTYPES_DICT, FLOAT_DTYPES_DICT
-from ypsilon_torch.transforms import InvertibleTransformsBase
+from ypsilon_torch.blocks.transforms import InvertibleTransformsBase
 
 from collections.abc import Sequence
 

@@ -9,7 +9,7 @@ except ImportError:
 
 from ypsilon_torch import NonLearnableProcessorBase, FPDTypeIdx, get_complex_dtype
 
-from ypsilon_torch.transforms import InvertibleTransformsBase
+from ypsilon_torch.blocks.transforms import InvertibleTransformsBase
 
 class FastCurveletTransform2D(InvertibleTransformsBase['InverseFastCurveletTransform2D']):
     """
