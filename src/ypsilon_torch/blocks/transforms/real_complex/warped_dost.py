@@ -1,6 +1,6 @@
 """Warped DOST — non-learnable, resolution-invariant, data-adaptive transform.
 
-Place at: ``src/s9/transforms/warped_dost.py``.
+Place at: ``src/ypsilon_torch/blocks/transforms/real_complex/warped_dost.py``.
 
 Design summary
 --------------
