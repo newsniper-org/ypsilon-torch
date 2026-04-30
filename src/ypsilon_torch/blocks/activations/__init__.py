@@ -17,8 +17,8 @@ class ActivationFunctionBase(nn.Module, ABC):
     def forward(self, input: torch.Tensor) -> torch.Tensor:
         raise NotImplementedError()
 
-    @abstractmethod
     @classmethod
+    @abstractmethod
     def assert_tensor(cls, tensor: torch.Tensor) -> bool:
         raise NotImplementedError()
 
@@ -32,8 +32,8 @@ class RealActivationFunctionBase(ActivationFunctionBase, ABC):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-    @override
     @classmethod
+    @override
     def assert_tensor(cls, tensor: torch.Tensor) -> bool:
         return not tensor.dtype.is_complex
 
@@ -41,8 +41,8 @@ class ComplexActivationFunctionBase(ActivationFunctionBase):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
     
-    @override
     @classmethod
+    @override
     def assert_tensor(cls, tensor: torch.Tensor) -> bool:
         return tensor.dtype.is_complex
 
