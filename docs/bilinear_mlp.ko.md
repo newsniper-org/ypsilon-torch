@@ -184,9 +184,11 @@ return self.out_proj(h)
   정규화.
 - 수집기 (**static-style 호출**): `BilinearMLPBase.reg_loss.collect(model)` —
   `model.modules()` 를 순회하며 모든 `_reg_loss`를 `torch.sum`으로 집계.
-- 리셋터: `BilinearMLPBase.reg_loss.reset(model, 0.0)` 또는
-  `model.reg_loss = 0.0`로 모든 sub-module의 `_reg_loss`를 스칼라 값으로
-  초기화.
+- 리셋터: `BilinearMLPBase.reg_loss.reset(model, 0.0)` — `model.modules()`를
+  순회하며 모든 sub-module의 `_reg_loss`를 스칼라 값으로 초기화. (반면
+  `module.reg_loss = 0.0` 세터는 **호출된 모듈 자신의** `_reg_loss`만 바꾸며,
+  그 모듈이 `BilinearMLPBase`/`AuxLossModule`을 상속한 경우에만 동작한다 —
+  서브모듈로 재귀하지 않으므로 전체 초기화에는 리셋터를 써야 한다.)
 
 ### 3.2 `AsymmetricSpatialChannelFactorizedBilinearMLP(BilinearMLPBase)`
 
@@ -282,7 +284,7 @@ OverlappedCycleChannelMapping(
 
 ```python
 import torch
-from ypsilon_torch.blocks import AsymmetricSpatialChannelFactorizedBilinearMLP
+from ypsilon_torch.blocks.bilinear_mlp import AsymmetricSpatialChannelFactorizedBilinearMLP
 
 block = AsymmetricSpatialChannelFactorizedBilinearMLP(
     dim=64, hidden_dim=256, num_groups=8,
@@ -296,7 +298,7 @@ y = block(x)                         # (2, 16, 64)
 ```python
 import torch
 from torch import nn
-from ypsilon_torch.blocks import AsymmetricSpatialChannelFactorizedBilinearMLP
+from ypsilon_torch.blocks.bilinear_mlp import AsymmetricSpatialChannelFactorizedBilinearMLP
 
 class ViTBlock(nn.Module):
     def __init__(self, dim: int, num_heads: int, mlp_ratio: float = 4.0):
@@ -326,7 +328,7 @@ class ViTBlock(nn.Module):
 유사도가 `reg_loss` 슬롯에 기록된다.
 
 ```python
-from ypsilon_torch.blocks import BilinearMLPBase
+from ypsilon_torch.blocks.bilinear_mlp import BilinearMLPBase
 
 model = MyViT(...).cuda()
 
@@ -342,9 +344,10 @@ for batch, target in loader:
     optimizer.step()
     optimizer.zero_grad()
 
-    # 다음 스텝을 위해 모든 모듈의 _reg_loss를 0으로 초기화
-    model.reg_loss = 0.0
-    # 또는: BilinearMLPBase.reg_loss.reset(model, 0.0)
+    # 다음 스텝을 위해 모든 모듈의 _reg_loss를 0으로 초기화.
+    # 리셋터를 써야 한다: `model.reg_loss = 0.0` 세터는 서브모듈로 재귀하지
+    # 않으며, 여기서 `model`은 BilinearMLPBase가 아닌 plain nn.Module이다.
+    BilinearMLPBase.reg_loss.reset(model, 0.0)
 ```
 
 > `model`이 `BilinearMLPBase` 인스턴스일 필요는 없다. `reg_loss.collect` /

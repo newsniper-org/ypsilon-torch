@@ -15,6 +15,22 @@
 - [**N-dimensional Pooling 블록**](nd_pooling.ko.md) — 1D/2D/3D 통합 지원
   robust pooling (Asinh, Fréchet median/medoid, Root-\*-Square), real/complex
   도메인, L_p 및 general 거리 함수 지원.
+- [**활성화 함수 (확장)**](activations.ko.md) — ArSinh, ThAShGLU(real) 및
+  ComplexThASh, ComplexHGLU, ZReLU, CReLU(complex)의 수학적 정의, API
+  레퍼런스, 사용 예제. 기존 HGLU/ThASh의 complex 대응물 포함.
+- [**Robust 위치·스케일 추정 (확장)**](robust_location.ko.md) — Huber/Tukey
+  biweight location, trimmed/Winsorized mean, MAD, biweight midvariance 및
+  이를 활용한 HuberLayerNorm, TrimmedLayerNorm.
+- [**Regularization 블록**](regularizations.ko.md) — GaussianNoise,
+  ArsinhGaussianNoise(arsinh 공간 scale-aware 노이즈)의 수학적 정의, API
+  레퍼런스, 사용 예제, 하이퍼파라미터 가이드.
+- [**Feed-Forward(FFN) 대체 블록**](feedforward.ko.md) — HourglassFFN
+  (wide-narrow-wide 스택), MultiHeadFFN(Flash Multi-Head FFN의 하드웨어
+  독립 순수 PyTorch 재구현)의 수학적 정의, 아키텍처, API, 구현 노트.
+- [**Mixture (희소·조건부 연산) 블록**](mixture.ko.md) — Mixture-of-Depths,
+  Mixture-of-Depths-and-Experts, Mixture-of-Hidden-Dimensions,
+  Mixture-of-Lookup-Experts, Attractor Patch Networks 및 torchutils.auxloss
+  기반 reg_loss 통합.
 
 ## English Documentation
 
@@ -33,6 +49,24 @@
 - [**N-dimensional Pooling Blocks**](nd_pooling.en.md) — unified 1D/2D/3D
   robust pooling (Asinh, Fréchet median/medoid, Root-\*-Square), real/complex
   domains, L_p and general distance function support.
+- [**Activation Functions (extensions)**](activations.en.md) — mathematical
+  definitions, API reference, and usage for ArSinh, ThAShGLU (real) and
+  ComplexThASh, ComplexHGLU, ZReLU, CReLU (complex), including complex
+  counterparts of the existing HGLU/ThASh.
+- [**Robust Location & Scale Estimators (extensions)**](robust_location.en.md) —
+  Huber / Tukey-biweight location, trimmed / Winsorized mean, MAD, biweight
+  midvariance, and the HuberLayerNorm / TrimmedLayerNorm blocks built on them.
+- [**Regularization Blocks**](regularizations.en.md) — mathematical
+  definitions, API reference, usage, and hyperparameter guide for
+  GaussianNoise and ArsinhGaussianNoise (arsinh-space, scale-aware noise).
+- [**Feed-Forward (FFN) Replacement Blocks**](feedforward.en.md) — HourglassFFN
+  (wide-narrow-wide stack) and MultiHeadFFN (a hardware-independent pure-PyTorch
+  re-implementation of Flash Multi-Head FFN): formulation, architecture, API,
+  implementation notes.
+- [**Mixture (Sparse / Conditional-Computation) Blocks**](mixture.en.md) —
+  Mixture-of-Depths, Mixture-of-Depths-and-Experts, Mixture-of-Hidden-Dimensions,
+  Mixture-of-Lookup-Experts, Attractor Patch Networks, and torchutils.auxloss-
+  backed reg_loss integration.
 
 ---
 

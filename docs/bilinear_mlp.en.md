@@ -195,8 +195,11 @@ return self.out_proj(h)
 - Collector (**static-style call**):
   `BilinearMLPBase.reg_loss.collect(model)` walks `model.modules()` and
   aggregates all `_reg_loss` entries via `torch.sum`.
-- Resetter: `BilinearMLPBase.reg_loss.reset(model, 0.0)` or
-  `model.reg_loss = 0.0` clears every sub-module's `_reg_loss` to a scalar.
+- Resetter: `BilinearMLPBase.reg_loss.reset(model, 0.0)` walks `model.modules()`
+  and clears every sub-module's `_reg_loss` to the scalar. (The plain
+  `module.reg_loss = 0.0` setter only affects the single module it is called on,
+  and only when that module subclasses `BilinearMLPBase`/`AuxLossModule` — it
+  does **not** recurse, so use the resetter to clear a whole model.)
 
 ### 3.2 `AsymmetricSpatialChannelFactorizedBilinearMLP(BilinearMLPBase)`
 
@@ -293,7 +296,7 @@ OverlappedCycleChannelMapping(
 
 ```python
 import torch
-from ypsilon_torch.blocks import AsymmetricSpatialChannelFactorizedBilinearMLP
+from ypsilon_torch.blocks.bilinear_mlp import AsymmetricSpatialChannelFactorizedBilinearMLP
 
 block = AsymmetricSpatialChannelFactorizedBilinearMLP(
     dim=64, hidden_dim=256, num_groups=8,
@@ -307,7 +310,7 @@ y = block(x)                         # (2, 16, 64)
 ```python
 import torch
 from torch import nn
-from ypsilon_torch.blocks import AsymmetricSpatialChannelFactorizedBilinearMLP
+from ypsilon_torch.blocks.bilinear_mlp import AsymmetricSpatialChannelFactorizedBilinearMLP
 
 class ViTBlock(nn.Module):
     def __init__(self, dim: int, num_heads: int, mlp_ratio: float = 4.0):
@@ -337,7 +340,7 @@ When constructed with `aux_loss_weight > 0.0`, every `forward` records the
 cosine-square similarity between the two branches into the `reg_loss` slot.
 
 ```python
-from ypsilon_torch.blocks import BilinearMLPBase
+from ypsilon_torch.blocks.bilinear_mlp import BilinearMLPBase
 
 model = MyViT(...).cuda()
 
@@ -353,9 +356,10 @@ for batch, target in loader:
     optimizer.step()
     optimizer.zero_grad()
 
-    # Clear every submodule's _reg_loss for the next step
-    model.reg_loss = 0.0
-    # or: BilinearMLPBase.reg_loss.reset(model, 0.0)
+    # Clear every submodule's _reg_loss for the next step. Use the resetter:
+    # the `model.reg_loss = 0.0` setter does not recurse into submodules
+    # (and `model` here is a plain nn.Module, not a BilinearMLPBase).
+    BilinearMLPBase.reg_loss.reset(model, 0.0)
 ```
 
 > `model` does **not** have to be a `BilinearMLPBase` instance. Both
